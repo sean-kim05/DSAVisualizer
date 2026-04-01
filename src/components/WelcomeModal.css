@@ -1,13 +1,13 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: overlayIn 0.25s ease;
+  animation: overlayIn 0.2s ease;
 }
 
 @keyframes overlayIn {
@@ -16,51 +16,48 @@
 }
 
 .modal {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 16px;
-  padding: 36px 40px;
+  border-radius: 12px;
+  padding: 32px 36px;
   width: 90%;
-  max-width: 560px;
+  max-width: 520px;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-color);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
   position: relative;
-  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px;
   background: var(--gradient-accent);
-  border-radius: 16px 16px 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
 @keyframes modalIn {
-  from { transform: translateY(-24px) scale(0.96); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+  from { transform: translateY(-16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .modal h2 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 20px;
-  background: var(--gradient-accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 18px;
+  color: var(--text-primary);
 }
 
 .modal h3 {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--accent-primary);
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 18px;
+  margin-bottom: 8px;
 }
 
 .modal-content {
@@ -71,7 +68,7 @@
   font-size: 14px;
   color: var(--text-muted);
   line-height: 1.6;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .instruction ul {
@@ -79,13 +76,13 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .instruction li {
   color: var(--text-secondary);
-  font-size: 14px;
-  padding-left: 20px;
+  font-size: 13px;
+  padding-left: 18px;
   position: relative;
   line-height: 1.5;
 }
@@ -95,18 +92,19 @@
   position: absolute;
   left: 0;
   color: var(--accent-primary);
-  font-size: 12px;
+  font-size: 11px;
+  top: 1px;
 }
 
 .algorithms-info {
-  margin-top: 16px;
-  padding: 14px 16px;
-  background: var(--bg-card);
-  border-radius: 10px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .algorithms-info p {
@@ -116,56 +114,55 @@
 }
 
 .algorithms-info p strong {
-  color: var(--accent-secondary);
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .modal-button {
-  background: var(--gradient-accent);
-  color: var(--bg-primary);
+  background: var(--accent-primary);
+  color: #fff;
   border: none;
-  padding: 13px 30px;
-  border-radius: 10px;
+  padding: 11px 28px;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 0.15s ease;
   width: 100%;
 }
 
 .modal-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(0, 212, 255, 0.35);
+  background: #4f52e3;
 }
 
 .modal-close {
   position: absolute;
-  top: 14px;
-  right: 16px;
-  background: var(--bg-card);
+  top: 12px;
+  right: 14px;
+  background: transparent;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   color: var(--text-muted);
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   line-height: 1;
 }
 
 .modal-close:hover {
   color: var(--text-primary);
-  border-color: var(--accent-primary);
-  transform: rotate(90deg);
+  border-color: var(--border-light);
+  background: var(--bg-tertiary);
 }
 
 @media (max-width: 600px) {
   .modal {
-    padding: 28px 24px;
-    border-radius: 12px;
+    padding: 24px 20px;
+    border-radius: 10px;
   }
 }
