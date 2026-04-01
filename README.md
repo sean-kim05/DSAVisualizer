@@ -1,8 +1,8 @@
 # DSAVisualizer - Interactive Algorithm & Data Structures Visualizer
 
-**Live Demo:** [seankim0807.github.io/DSAVisualizer](https://seankim0807.github.io/DSAVisualizer/)
+**Live Demo:** [sean-kim05.github.io/DSAVisualizer](https://sean-kim05.github.io/DSAVisualizer/)
 
-**Repository:** [github.com/seankim0807/DSAVisualizer](https://github.com/seankim0807/DSAVisualizer)
+**Repository:** [github.com/sean-kim05/DSAVisualizer](https://github.com/sean-kim05/DSAVisualizer)
 
 **DSAVisualizer** is a comprehensive web application that brings algorithms and data structures to life through interactive visualizations. Perfect for students, educators, and developers learning computer science fundamentals.
 
@@ -220,7 +220,7 @@ DSAVisualizer/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/seankim0807/DSAVisualizer.git
+git clone https://github.com/sean-kim05/DSAVisualizer.git
 cd DSAVisualizer
 ```
 
