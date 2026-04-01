@@ -21,13 +21,13 @@
 }
 
 .input-field:hover:not(:disabled) {
-  border-color: var(--accent-green);
+  border-color: var(--accent-primary);
 }
 
 .input-field:focus {
   outline: none;
-  border-color: var(--accent-green);
-  box-shadow: 0 0 8px rgba(0, 255, 0, 0.2);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.25);
 }
 
 .input-field:disabled {
