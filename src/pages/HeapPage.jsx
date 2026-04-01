@@ -257,7 +257,7 @@ function HeapPage({ showToast }) {
           <div style={{
             flex: 1,
             background: 'var(--bg-secondary)',
-            borderRadius: '12px',
+            borderRadius: '8px',
             border: '1px solid var(--border-color)',
             overflow: 'auto',
             display: 'flex',
@@ -296,7 +296,7 @@ function HeapPage({ showToast }) {
 
           <div style={{
             display: 'flex', gap: '4px', padding: '12px 16px',
-            background: 'var(--bg-secondary)', borderRadius: '10px',
+            background: 'var(--bg-secondary)', borderRadius: '8px',
             border: '1px solid var(--border-color)', overflowX: 'auto',
             alignItems: 'center', flexShrink: 0,
           }}>

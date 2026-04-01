@@ -5,7 +5,7 @@ function Navbar({ activeTab, setActiveTab, tabs }) {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <h1 className="title">DSAVisualizer</h1>
+        <h1 className="title"><span className="logo-mark">D</span>SAVisualizer</h1>
         <div className="tabs">
           {tabs.filter(t => t.id !== 'about').map(tab => (
             <button

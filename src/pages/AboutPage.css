@@ -124,10 +124,10 @@
 }
 
 .about-card {
-  background: var(--bg-primary);
+  background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 20px 24px;
+  border-radius: 8px;
+  padding: 18px 22px;
 }
 
 .about-card h4 {

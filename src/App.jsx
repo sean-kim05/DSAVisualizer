@@ -68,7 +68,7 @@ function App() {
         setActiveTab={setActiveTab}
         tabs={tabs}
       />
-      <div className="page-container">
+      <div className="page-container" key={activeTab}>
         {renderPage()}
       </div>
       {toast && <Toast message={toast} />}

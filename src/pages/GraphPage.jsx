@@ -285,7 +285,7 @@ function GraphPage({ showToast }) {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', overflow: 'hidden' }}>
         <div style={{
-          flex: 1, background: 'var(--bg-secondary)', borderRadius: '12px',
+          flex: 1, background: 'var(--bg-secondary)', borderRadius: '8px',
           border: '1px solid var(--border-color)', overflow: 'hidden', position: 'relative',
           cursor: mode === 'add' ? 'crosshair' : 'default',
         }}>
@@ -350,7 +350,7 @@ function GraphPage({ showToast }) {
 
         {traversalOrder.length > 0 && (
           <div style={{
-            padding: '10px 16px', background: 'var(--bg-secondary)', borderRadius: '10px',
+            padding: '10px 16px', background: 'var(--bg-secondary)', borderRadius: '8px',
             border: '1px solid var(--border-color)', flexShrink: 0, fontSize: '13px',
           }}>
             <strong style={{ color: 'var(--accent-primary)' }}>Traversal Order: </strong>
