@@ -2,12 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-  padding: 16px;
   background-color: var(--bg-primary);
   overflow: auto;
   flex: 1;
   align-items: center;
   justify-content: center;
+  padding: 8px;
 }
 
 .grid-row {
@@ -16,69 +16,78 @@
 }
 
 .cell {
-  width: 25px;
-  height: 25px;
-  background-color: var(--bg-tertiary);
-  border: 1px solid #1f1f24;
+  width: 24px;
+  height: 24px;
+  background-color: #1a1a1f;
+  border: 1px solid #1e1e24;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.1s;
 }
 
 .cell:hover {
-  background-color: #2a2a35;
+  background-color: #26262e;
 }
 
 .cell.wall {
-  background-color: #e4e4e7;
+  background-color: #d4d4d8;
+  border-color: #a1a1aa;
 }
 
 .cell.start {
   background-color: #22c55e;
+  border-color: #16a34a;
 }
 
 .cell.end {
   background-color: #ef4444;
+  border-color: #dc2626;
 }
 
 .cell.visited {
-  animation: visitedAnimation 0.5s ease-out forwards;
+  animation: visitedAnim 0.4s ease-out forwards;
 }
 
-@keyframes visitedAnimation {
+@keyframes visitedAnim {
   0% {
-    background-color: var(--bg-tertiary);
-    transform: scale(1);
+    background-color: #1a1a1f;
+    transform: scale(0.8);
   }
-  50% {
-    background-color: #818cf8;
+  60% {
+    background-color: #4f46e5;
     transform: scale(1.05);
   }
   100% {
-    background-color: #818cf8;
+    background-color: #6366f1;
     transform: scale(1);
   }
 }
 
 .cell.path {
-  animation: pathAnimation 0.5s ease-out forwards;
+  animation: pathAnim 0.35s ease-out forwards;
 }
 
-@keyframes pathAnimation {
+@keyframes pathAnim {
   0% {
-    background-color: #818cf8;
+    background-color: #6366f1;
+    transform: scale(0.85);
+  }
+  70% {
+    background-color: #fbbf24;
+    transform: scale(1.08);
   }
   100% {
     background-color: #f59e0b;
+    transform: scale(1);
   }
 }
 
 @media (max-width: 768px) {
   .cell {
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
   }
 
   .grid {
-    padding: 8px;
+    padding: 4px;
   }
 }

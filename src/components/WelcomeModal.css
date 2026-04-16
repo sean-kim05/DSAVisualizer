@@ -1,8 +1,8 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,45 +18,47 @@
 .modal {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 12px;
-  padding: 32px 36px;
+  border-radius: 10px;
+  padding: 28px 32px;
   width: 90%;
-  max-width: 520px;
+  max-width: 500px;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255,255,255,0.04);
   position: relative;
-  animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: modalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
+  height: 1px;
   background: var(--gradient-accent);
-  border-radius: 12px 12px 0 0;
+  border-radius: 10px 10px 0 0;
+  opacity: 0.8;
 }
 
 @keyframes modalIn {
-  from { transform: translateY(-16px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(-12px) scale(0.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 .modal h2 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   color: var(--text-primary);
+  letter-spacing: -0.3px;
 }
 
 .modal h3 {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent-primary);
-  margin-top: 18px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-top: 20px;
   margin-bottom: 8px;
 }
 
@@ -65,10 +67,10 @@
 }
 
 .modal-content > p {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
   line-height: 1.6;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .instruction ul {
@@ -76,13 +78,13 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .instruction li {
   color: var(--text-secondary);
   font-size: 13px;
-  padding-left: 18px;
+  padding-left: 16px;
   position: relative;
   line-height: 1.5;
 }
@@ -97,19 +99,19 @@
 }
 
 .algorithms-info {
-  margin-top: 14px;
+  margin-top: 12px;
   padding: 12px 14px;
   background: var(--bg-tertiary);
-  border-radius: 8px;
+  border-radius: 7px;
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
 .algorithms-info p {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -122,12 +124,12 @@
   background: var(--accent-primary);
   color: #fff;
   border: none;
-  padding: 11px 28px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 10px 24px;
+  border-radius: 7px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.15s;
   width: 100%;
 }
 
@@ -141,17 +143,16 @@
   right: 14px;
   background: transparent;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 5px;
   color: var(--text-muted);
-  font-size: 16px;
   cursor: pointer;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s ease;
-  line-height: 1;
+  transition: all 0.15s;
+  font-size: 14px;
 }
 
 .modal-close:hover {
@@ -162,7 +163,6 @@
 
 @media (max-width: 600px) {
   .modal {
-    padding: 24px 20px;
-    border-radius: 10px;
+    padding: 22px 18px;
   }
 }
