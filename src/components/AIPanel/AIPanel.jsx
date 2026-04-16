@@ -2,16 +2,56 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import styles from './AIPanel.module.css'
 
 const PRESET_QUESTIONS = [
-  { label: 'Explain this algorithm', icon: '💡' },
-  { label: "What's the time complexity?", icon: '⏱️' },
-  { label: 'When should I use this?', icon: '🎯' },
-  { label: 'How does this compare to similar algorithms?', icon: '⚖️' },
-  { label: 'What should I watch for?', icon: '👁️' },
+  {
+    label: 'Explain this algorithm',
+    icon: (
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
+        <path d="M6 5.5v2.5M6 3.5v.8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Time complexity",
+    icon: (
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
+        <path d="M6 3.5V6l2 1.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: 'When should I use this?',
+    icon: (
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M6 1.5l1.2 2.4 2.7.4-1.95 1.9.46 2.7L6 7.65 3.57 8.9l.46-2.7L2.08 4.3l2.7-.4L6 1.5z" stroke="currentColor" strokeWidth="1.15" strokeLinejoin="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: 'Compare to similar',
+    icon: (
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M1.5 4.5h9M1.5 7.5h9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+        <path d="M7.5 2.5l2 2-2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M4.5 6.5l-2 2 2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: 'What to watch for?',
+    icon: (
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M1.5 6s1.5-3.5 4.5-3.5S10.5 6 10.5 6 9 9.5 6 9.5 1.5 6 1.5 6z" stroke="currentColor" strokeWidth="1.2"/>
+        <circle cx="6" cy="6" r="1.4" stroke="currentColor" strokeWidth="1.2"/>
+      </svg>
+    ),
+  },
 ]
 
 const ALGORITHM_WELCOME = {
   "Dijkstra's Algorithm": "Now watching Dijkstra's — the gold standard for shortest paths. Ask me anything!",
-  'A* Search': "Now watching A* Search — it uses a heuristic to find paths faster. Ask me anything!",
+  'A* Search': "Now watching A* — it uses a heuristic to find paths faster. Ask me anything!",
   'Breadth-First Search (BFS)': 'Now watching BFS — watch it explore in perfect rings outward. Ask me anything!',
   'Depth-First Search (DFS)': 'Now watching DFS — watch it dive deep before backtracking. Ask me anything!',
   'Greedy Best-First Search': 'Now watching Greedy Best-First — it beelines toward the goal. Ask me anything!',
@@ -25,6 +65,53 @@ const ALGORITHM_WELCOME = {
   'Binary Search': 'Now watching Binary Search — halving the search space each step. Ask me anything!',
 }
 
+// SVG icons used inline
+const IconAI = () => (
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+    <path d="M7.5 1.5C4.186 1.5 1.5 4.186 1.5 7.5c0 1.476.528 2.827 1.4 3.876L1.5 12.793A.5.5 0 001.854 13.5H7.5c3.314 0 6-2.686 6-6s-2.686-6-6-6z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+    <circle cx="5" cy="7.5" r="1" fill="currentColor"/>
+    <circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>
+    <circle cx="10" cy="7.5" r="1" fill="currentColor"/>
+  </svg>
+)
+
+const IconClose = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+  </svg>
+)
+
+const IconSend = () => (
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+    <path d="M7.5 2.5v10M3 6.5l4.5-4 4.5 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+const IconStop = () => (
+  <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+    <rect x="2" y="2" width="7" height="7" rx="1.5" fill="currentColor"/>
+  </svg>
+)
+
+const IconCopy = () => (
+  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+    <rect x="4.5" y="4.5" width="7" height="7" rx="1.2" stroke="currentColor" strokeWidth="1.1"/>
+    <path d="M3 8.5H2A1.5 1.5 0 01.5 7V2A1.5 1.5 0 012 .5h5A1.5 1.5 0 018.5 2v1.5" stroke="currentColor" strokeWidth="1.1"/>
+  </svg>
+)
+
+const IconCheck = () => (
+  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+    <path d="M2.5 6.5l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+const IconPlay = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M2 2.5l8 3.5-8 3.5V2.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+  </svg>
+)
+
 function TypingIndicator() {
   return (
     <div className={styles.typingIndicator}>
@@ -33,7 +120,7 @@ function TypingIndicator() {
   )
 }
 
-function MessageBubble({ message, onCopy }) {
+function MessageBubble({ message }) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {
@@ -41,7 +128,6 @@ function MessageBubble({ message, onCopy }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     })
-    onCopy && onCopy()
   }
 
   if (message.role === 'status') {
@@ -52,10 +138,13 @@ function MessageBubble({ message, onCopy }) {
     <div className={`${styles.bubble} ${styles[message.role]} ${message.isError ? styles.errorBubble : ''}`}>
       {message.role === 'assistant' && (
         <div className={styles.bubbleHeader}>
-          <span className={styles.aiLabel}>✦ Claude</span>
+          <span className={styles.aiLabel}>
+            <IconAI />
+            Claude
+          </span>
           {!message.isStreaming && message.content && (
             <button className={styles.copyBtn} onClick={handleCopy} title="Copy response">
-              {copied ? '✓' : '⎘'}
+              {copied ? <IconCheck /> : <IconCopy />}
             </button>
           )}
         </div>
@@ -89,7 +178,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
   const inputRef = useRef(null)
   const prevAlgorithmRef = useRef(currentAlgorithm)
   const prevVizStatusRef = useRef(vizStatus)
-  const historyRef = useRef([]) // clean history for API
+  const historyRef = useRef([])
 
   // First-time tooltip
   useEffect(() => {
@@ -125,7 +214,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
       setVizBanner('Visualization running — I can explain what you\'re seeing')
       setShowExplainBtn(false)
     } else if (vizStatus === 'maze_running') {
-      setVizBanner('Generating maze — ask me how recursive division works!')
+      setVizBanner('Generating maze — ask me how this works!')
       setShowExplainBtn(false)
     } else if (vizStatus === 'complete') {
       setVizBanner(null)
@@ -175,14 +264,11 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     setRateLimited(true)
     setTimeout(() => setRateLimited(false), 1000)
 
-    // Stop any existing stream
     if (abortRef.current) abortRef.current.abort()
     const controller = new AbortController()
     abortRef.current = controller
 
-    // Append user message
     setMessages(prev => [...prev, { role: 'user', content: q }])
-    // Placeholder streaming bubble
     setMessages(prev => [...prev, { role: 'assistant', content: '', isStreaming: true }])
 
     const historySnapshot = [...historyRef.current]
@@ -200,9 +286,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         signal: controller.signal,
       })
 
-      if (!res.ok) {
-        throw new Error(`Server error: ${res.status}`)
-      }
+      if (!res.ok) throw new Error(`Server error: ${res.status}`)
 
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
@@ -215,7 +299,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
 
         buffer += decoder.decode(value, { stream: true })
         const lines = buffer.split('\n')
-        buffer = lines.pop() // Keep incomplete last line
+        buffer = lines.pop()
 
         for (const line of lines) {
           if (!line.startsWith('data: ')) continue
@@ -234,7 +318,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
                 next[next.length - 1] = { role: 'assistant', content: fullText, isStreaming: false }
                 return next
               })
-              // Update history
               historyRef.current = [
                 ...historySnapshot,
                 { role: 'user', content: q },
@@ -270,7 +353,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           const next = [...prev]
           next[next.length - 1] = {
             role: 'assistant',
-            content: `Connection error. Is the Flask backend running on port 5000?\n\n${err.message}`,
+            content: `Connection error. Is the Flask backend running?\n\n${err.message}`,
             isStreaming: false,
             isError: true,
           }
@@ -311,8 +394,10 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
       {/* First-time tooltip */}
       {showTooltip && !isOpen && (
         <div className={styles.tooltip} onClick={dismissTooltip}>
-          <span>✨ New! Ask Claude to explain any algorithm</span>
-          <button className={styles.tooltipClose} onClick={dismissTooltip}>✕</button>
+          <span>Ask Claude to explain any algorithm</span>
+          <button className={styles.tooltipClose} onClick={dismissTooltip}>
+            <IconClose />
+          </button>
         </div>
       )}
 
@@ -323,34 +408,22 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         title={isOpen ? 'Close AI panel (/)' : 'Open AI assistant (/)'}
         aria-label="Toggle AI panel"
       >
-        {isOpen ? (
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M4 4L14 14M14 4L4 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        ) : (
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M10 2C5.58172 2 2 5.58172 2 10C2 11.8487 2.63584 13.551 3.70846 14.9028L2.29289 16.2929C1.90237 16.6834 2.17155 17.3536 2.70711 17.3536H10C14.4183 17.3536 18 13.7719 18 9.35355C18 4.93527 14.4183 1.35355 10 1.35355" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <circle cx="7" cy="10" r="1.2" fill="currentColor"/>
-            <circle cx="10" cy="10" r="1.2" fill="currentColor"/>
-            <circle cx="13" cy="10" r="1.2" fill="currentColor"/>
-          </svg>
-        )}
+        {isOpen ? <IconClose /> : <IconAI />}
         {!isOpen && <span className={styles.toggleLabel}>AI</span>}
       </button>
 
       {/* Panel */}
       <div className={`${styles.panel} ${isOpen ? styles.panelOpen : ''}`} aria-hidden={!isOpen}>
+
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <span className={styles.headerIcon}>✦</span>
-            <span className={styles.headerTitle}>Claude AI</span>
+            <span className={styles.headerIcon}><IconAI /></span>
+            <span className={styles.headerTitle}>Claude</span>
             <span className={styles.headerSub}>DSA Tutor</span>
           </div>
           {currentAlgorithm && (
-            <span className={styles.algorithmBadge}>
-              {currentAlgorithm}
-            </span>
+            <span className={styles.algorithmBadge}>{currentAlgorithm}</span>
           )}
         </div>
 
@@ -382,7 +455,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         <div className={styles.chat} ref={chatRef}>
           {messages.length === 0 ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>✦</div>
+              <div className={styles.emptyIcon}><IconAI /></div>
               <p>Ask me about <strong>{currentAlgorithm || 'this algorithm'}</strong>.</p>
               <p className={styles.emptyHint}>Press <kbd>/</kbd> to open this panel anytime.</p>
             </div>
@@ -397,7 +470,8 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         {showExplainBtn && (
           <div className={styles.explainBanner}>
             <button className={styles.explainBtn} onClick={handleExplainNow}>
-              🔍 Explain what just happened
+              <IconPlay />
+              Explain what just happened
             </button>
           </div>
         )}
@@ -420,7 +494,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
               onClick={stopGeneration}
               title="Stop generation"
             >
-              ◼
+              <IconStop />
             </button>
           ) : (
             <button
@@ -429,7 +503,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
               disabled={!input.trim() || rateLimited}
               title="Send message"
             >
-              ↑
+              <IconSend />
             </button>
           )}
         </form>
