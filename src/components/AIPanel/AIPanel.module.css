@@ -8,8 +8,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 12px 8px;
+  gap: 5px;
+  padding: 14px 10px;
   background: var(--bg-card, #1c1c1f);
   border: 1px solid var(--border-color, #27272a);
   border-right: none;
@@ -17,14 +17,13 @@
   color: var(--accent-primary, #6366f1);
   cursor: pointer;
   transition: background 0.15s, box-shadow 0.3s;
-  /* Glow effect */
-  box-shadow: -2px 0 16px rgba(99, 102, 241, 0.3), 0 0 24px rgba(99, 102, 241, 0.15);
+  box-shadow: -3px 0 20px rgba(99, 102, 241, 0.3), 0 0 28px rgba(99, 102, 241, 0.15);
   animation: aiGlow 3s ease-in-out infinite;
 }
 
 @keyframes aiGlow {
-  0%, 100% { box-shadow: -2px 0 16px rgba(99, 102, 241, 0.25), 0 0 24px rgba(99, 102, 241, 0.1); }
-  50%       { box-shadow: -2px 0 24px rgba(99, 102, 241, 0.5), 0 0 36px rgba(99, 102, 241, 0.25); }
+  0%, 100% { box-shadow: -3px 0 18px rgba(99, 102, 241, 0.25), 0 0 24px rgba(99, 102, 241, 0.1); }
+  50%       { box-shadow: -3px 0 28px rgba(99, 102, 241, 0.55), 0 0 40px rgba(99, 102, 241, 0.28); }
 }
 
 .toggleBtn:hover {
@@ -41,8 +40,11 @@
 .toggleLabel {
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--text-secondary, #a1a1aa);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
 }
 
 /* ── Panel ─────────────────────────────────────── */
@@ -50,7 +52,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 360px;
+  width: 420px;
   height: 100vh;
   background: var(--bg-secondary, #111113);
   border-left: 1px solid var(--border-color, #27272a);
@@ -122,8 +124,8 @@
 .presets {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  padding: 10px 12px;
+  gap: 6px;
+  padding: 12px 14px;
   border-bottom: 1px solid var(--border-color, #27272a);
   background: var(--bg-primary, #09090b);
   flex-shrink: 0;
@@ -132,13 +134,13 @@
 .presetBtn {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 9px;
+  gap: 6px;
+  padding: 6px 11px;
   background: var(--bg-tertiary, #18181b);
   border: 1px solid var(--border-color, #27272a);
   border-radius: 20px;
   color: var(--text-secondary, #a1a1aa);
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
@@ -222,9 +224,9 @@
 .bubble {
   max-width: 100%;
   border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 13px;
-  line-height: 1.6;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.65;
 }
 
 .user {
