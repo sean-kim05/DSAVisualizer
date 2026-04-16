@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import styles from './AIPanel.module.css'
 
+const API_BASE = import.meta.env.VITE_API_URL || ''
+
 const PRESET_QUESTIONS = [
   {
     label: 'Explain this algorithm',
@@ -274,7 +276,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     const historySnapshot = [...historyRef.current]
 
     try {
-      const res = await fetch('/api/explain', {
+      const res = await fetch(`${API_BASE}/api/explain`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
