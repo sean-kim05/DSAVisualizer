@@ -9,6 +9,34 @@ const SORT_DISPLAY_NAMES = {
   quick: 'Quick Sort',
 }
 
+const SORT_INFO = {
+  bubble: {
+    complexity: 'O(n²)',
+    space: 'O(1)',
+    desc: 'Repeatedly swaps adjacent elements that are out of order. Simple but inefficient on large lists.',
+  },
+  selection: {
+    complexity: 'O(n²)',
+    space: 'O(1)',
+    desc: 'Finds the minimum element and places it at the start, repeating for each position.',
+  },
+  insertion: {
+    complexity: 'O(n²)',
+    space: 'O(1)',
+    desc: 'Builds a sorted array one element at a time by inserting each into its correct position.',
+  },
+  merge: {
+    complexity: 'O(n log n)',
+    space: 'O(n)',
+    desc: 'Divides the array in half, recursively sorts each half, then merges them back together.',
+  },
+  quick: {
+    complexity: 'O(n log n) avg',
+    space: 'O(log n)',
+    desc: 'Picks a pivot, partitions elements around it, then recursively sorts each partition.',
+  },
+}
+
 function SortingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
   const [array, setArray] = useState([])
   const [isAnimating, setIsAnimating] = useState(false)
@@ -87,11 +115,13 @@ function SortingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
     return 'var(--color-sorting-default)'
   }
 
+  const info = SORT_INFO[selectedAlgorithm]
+
   return (
     <div className="page sorting-page">
       <div className="controls">
         <div className="control-group">
-          <label htmlFor="algo-select">Algorithm:</label>
+          <label htmlFor="algo-select">Algorithm</label>
           <select
             id="algo-select"
             value={selectedAlgorithm}
@@ -109,6 +139,8 @@ function SortingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
           </select>
         </div>
 
+        <div className="controls-divider" />
+
         <button
           className="btn btn-primary"
           onClick={handleSort}
@@ -122,11 +154,13 @@ function SortingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
           onClick={generateArray}
           disabled={isAnimating}
         >
-          Generate New Array
+          New Array
         </button>
 
+        <div className="controls-divider" />
+
         <div className="control-group">
-          <label htmlFor="speed-select">Speed:</label>
+          <label htmlFor="speed-select">Speed</label>
           <select
             id="speed-select"
             value={speed}
@@ -137,6 +171,21 @@ function SortingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
             <option value="normal">Normal</option>
             <option value="fast">Fast</option>
           </select>
+        </div>
+      </div>
+
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">{SORT_DISPLAY_NAMES[selectedAlgorithm]}</span>
+          <span className="algo-info-complexity">{info.complexity}</span>
+          <span className="algo-info-space">Space: {info.space}</span>
+        </div>
+        <div className="algo-info-desc">{info.desc}</div>
+        <div className="legend">
+          <span className="legend-item"><span className="legend-dot" style={{ background: 'var(--color-sorting-default)' }} />Default</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: 'var(--color-sorting-compare)' }} />Comparing</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: 'var(--color-sorting-swap)' }} />Swapping</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: 'var(--color-sorting-sorted)' }} />Sorted</span>
         </div>
       </div>
 
@@ -157,8 +206,16 @@ function SortingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
 
       {(counter.comparisons > 0 || counter.swaps > 0) && (
         <div className="counter">
-          <span>Comparisons: {counter.comparisons}</span>
-          <span>Swaps: {counter.swaps}</span>
+          <span className="counter-item">
+            <span className="counter-dot" style={{ background: 'var(--color-sorting-compare)' }} />
+            <span className="counter-label">Comparisons</span>
+            <span className="counter-value">{counter.comparisons}</span>
+          </span>
+          <span className="counter-item">
+            <span className="counter-dot" style={{ background: 'var(--color-sorting-swap)' }} />
+            <span className="counter-label">Swaps</span>
+            <span className="counter-value">{counter.swaps}</span>
+          </span>
         </div>
       )}
     </div>

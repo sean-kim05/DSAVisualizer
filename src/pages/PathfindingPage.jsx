@@ -138,18 +138,45 @@ function PathfindingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
   }
 
   const algorithmInfo = {
-    dijkstra: { name: "Dijkstra's", guarantees: true },
-    astar: { name: "A*", guarantees: true },
-    bfs: { name: "BFS", guarantees: true },
-    dfs: { name: "DFS", guarantees: false },
-    greedy: { name: "Greedy Best First", guarantees: false },
+    dijkstra: {
+      name: "Dijkstra's Algorithm",
+      complexity: 'O((V + E) log V)',
+      desc: 'Explores nodes by shortest known distance. Guarantees the shortest path on weighted graphs.',
+      guarantees: true,
+    },
+    astar: {
+      name: 'A* Search',
+      complexity: 'O(E log V)',
+      desc: 'Uses a heuristic to guide search toward the goal. Faster than Dijkstra\'s in practice.',
+      guarantees: true,
+    },
+    bfs: {
+      name: 'Breadth-First Search',
+      complexity: 'O(V + E)',
+      desc: 'Explores all neighbors level by level. Guarantees shortest path on unweighted graphs.',
+      guarantees: true,
+    },
+    dfs: {
+      name: 'Depth-First Search',
+      complexity: 'O(V + E)',
+      desc: 'Explores as far as possible down each branch before backtracking. Does not guarantee shortest path.',
+      guarantees: false,
+    },
+    greedy: {
+      name: 'Greedy Best-First Search',
+      complexity: 'O(E log V)',
+      desc: 'Always expands the node that looks closest to the goal. Fast but does not guarantee shortest path.',
+      guarantees: false,
+    },
   }
+
+  const info = algorithmInfo[selectedAlgorithm]
 
   return (
     <div className="page pathfinding-page">
       <div className="controls">
         <div className="control-group">
-          <label htmlFor="algo-select">Algorithm:</label>
+          <label htmlFor="algo-select">Algorithm</label>
           <select
             id="algo-select"
             value={selectedAlgorithm}
@@ -159,13 +186,13 @@ function PathfindingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
             }}
             disabled={isAnimating}
           >
-            {Object.entries(algorithmInfo).map(([key, info]) => (
-              <option key={key} value={key}>
-                {info.name} {info.guarantees ? '✓' : '(no guarantee)'}
-              </option>
+            {Object.entries(algorithmInfo).map(([key, val]) => (
+              <option key={key} value={key}>{val.name}</option>
             ))}
           </select>
         </div>
+
+        <div className="controls-divider" />
 
         <button
           className="btn btn-primary"
@@ -200,6 +227,24 @@ function PathfindingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         </button>
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">{info.name}</span>
+          <span className="algo-info-complexity">{info.complexity}</span>
+          <span className={`algo-info-badge ${info.guarantees ? 'badge-guaranteed' : 'badge-no-guarantee'}`}>
+            {info.guarantees ? 'Shortest path guaranteed' : 'No path guarantee'}
+          </span>
+        </div>
+        <div className="algo-info-desc">{info.desc}</div>
+        <div className="legend">
+          <span className="legend-item"><span className="legend-dot" style={{ background: '#22c55e' }} />Start</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: '#ef4444' }} />End</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: '#d4d4d8' }} />Wall</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: '#6366f1' }} />Visited</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: '#f59e0b' }} />Path</span>
+        </div>
+      </div>
+
       <div className="grid-container">
         <Grid
           grid={grid}
@@ -214,8 +259,16 @@ function PathfindingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
 
       {nodeCounter.visited > 0 && (
         <div className="counter">
-          <span>Nodes visited: {nodeCounter.visited}</span>
-          <span>Path length: {nodeCounter.pathLength}</span>
+          <span className="counter-item">
+            <span className="counter-dot" style={{ background: '#6366f1' }} />
+            <span className="counter-label">Nodes Visited</span>
+            <span className="counter-value">{nodeCounter.visited}</span>
+          </span>
+          <span className="counter-item">
+            <span className="counter-dot" style={{ background: '#f59e0b' }} />
+            <span className="counter-label">Path Length</span>
+            <span className="counter-value">{nodeCounter.pathLength > 0 ? nodeCounter.pathLength : '—'}</span>
+          </span>
         </div>
       )}
     </div>
