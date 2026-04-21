@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link2 } from 'lucide-react'
 import './Page.css'
 
 function LinkedListPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
@@ -230,7 +231,7 @@ function LinkedListPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
       {nodes.length === 0 ? (
         <div className="placeholder">
           <div className="placeholder-content">
-            <div className="placeholder-icon">🔗</div>
+            <div className="placeholder-icon"><Link2 size={32} strokeWidth={1.5} /></div>
             <h2>Linked List Visualizer</h2>
             <p>Insert values using the toolbar, or start with a random list.</p>
             <button className="placeholder-cta" onClick={generateRandom}>Generate Random List</button>

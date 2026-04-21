@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { Lightbulb, Clock, Target, Scale, Eye, Sparkles } from 'lucide-react'
 import styles from './AIPanel.module.css'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const PRESET_QUESTIONS = [
-  { label: 'Explain this algorithm', icon: '💡' },
-  { label: 'Time complexity',        icon: '⏱' },
-  { label: 'When should I use this?', icon: '🎯' },
-  { label: 'Compare to similar',     icon: '⚖️' },
-  { label: 'What to watch for?',     icon: '👁' },
+  { label: 'Explain this algorithm', icon: Lightbulb },
+  { label: 'Time complexity',        icon: Clock },
+  { label: 'When should I use this?', icon: Target },
+  { label: 'Compare to similar',     icon: Scale },
+  { label: 'What to watch for?',     icon: Eye },
 ]
 
 const ALGORITHM_WELCOME = {
@@ -380,7 +381,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <span className={styles.headerIcon}>✦</span>
+            <span className={styles.headerIcon}><Sparkles size={14} strokeWidth={2} /></span>
             <div className={styles.headerTitleBlock}>
               <span className={styles.headerTitle}>Claude</span>
               {currentAlgorithm && (
@@ -392,7 +393,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
 
         {/* Preset buttons */}
         <div className={styles.presets}>
-          {PRESET_QUESTIONS.map(({ label, icon }) => (
+          {PRESET_QUESTIONS.map(({ label, icon: Icon }) => (
             <button
               key={label}
               className={styles.presetBtn}
@@ -400,7 +401,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
               disabled={isStreaming}
               title={label}
             >
-              <span className={styles.presetIcon}>{icon}</span>
+              <span className={styles.presetIcon}><Icon size={13} strokeWidth={2} /></span>
               <span className={styles.presetLabel}>{label}</span>
             </button>
           ))}
@@ -472,7 +473,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         </form>
 
         <div className={styles.footer}>
-          <span>✦</span>
+          <Sparkles size={11} strokeWidth={2} style={{ flexShrink: 0 }} />
           Powered by Claude · Press <kbd>/</kbd> to toggle
         </div>
       </div>

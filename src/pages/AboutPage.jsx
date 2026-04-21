@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { Navigation, BarChart2, GitBranch, Layers, Share2, Link2, AlignJustify, Search } from 'lucide-react'
 import './Page.css'
 import './AboutPage.css'
 
 const sections = [
   {
     id: 'pathfinding',
-    icon: '🗺️',
+    icon: Navigation,
     title: 'Pathfinding',
     color: '#6366f1',
     desc: 'Watch algorithms navigate a grid from a start node to an end node in real time.',
@@ -29,7 +30,7 @@ const sections = [
   },
   {
     id: 'sorting',
-    icon: '📊',
+    icon: BarChart2,
     title: 'Sorting',
     color: '#a78bfa',
     desc: 'Visualize sorting algorithms on a bar chart with color-coded comparisons and swaps.',
@@ -50,7 +51,7 @@ const sections = [
   },
   {
     id: 'tree',
-    icon: '🌳',
+    icon: GitBranch,
     title: 'Binary Search Tree',
     color: '#22c55e',
     desc: 'Build a BST interactively and watch insert, delete, search, and traversal animate node by node.',
@@ -70,7 +71,7 @@ const sections = [
   },
   {
     id: 'heap',
-    icon: '🏔️',
+    icon: Layers,
     title: 'Heap',
     color: '#f59e0b',
     desc: 'Visualize a Min or Max heap as both a tree and an array, with animated bubble-up and bubble-down.',
@@ -90,7 +91,7 @@ const sections = [
   },
   {
     id: 'graph',
-    icon: '🕸️',
+    icon: Share2,
     title: 'Graph Traversal',
     color: '#8b5cf6',
     desc: 'Build a custom graph by adding nodes and edges, then run BFS or DFS to watch the traversal animate.',
@@ -111,7 +112,7 @@ const sections = [
   },
   {
     id: 'linkedlist',
-    icon: '🔗',
+    icon: Link2,
     title: 'Linked List',
     color: '#38bdf8',
     desc: 'Visualize singly and doubly linked list operations with animated pointer movements between nodes.',
@@ -131,7 +132,7 @@ const sections = [
   },
   {
     id: 'stackqueue',
-    icon: '📚',
+    icon: AlignJustify,
     title: 'Stack & Queue',
     color: '#f472b6',
     desc: 'Compare LIFO (Stack) and FIFO (Queue) side by side with animated push, pop, enqueue, and dequeue.',
@@ -149,7 +150,7 @@ const sections = [
   },
   {
     id: 'binarysearch',
-    icon: '🔍',
+    icon: Search,
     title: 'Binary Search',
     color: '#34d399',
     desc: 'Step through binary search on a sorted array with animated left, right, and mid pointer movements.',
@@ -179,23 +180,31 @@ export default function AboutPage() {
             <p>Interactive algorithm &amp; data structure visualizations. Pick a section to learn how it works.</p>
           </div>
           <nav className="about-nav">
-            {sections.map(s => (
-              <button
-                key={s.id}
-                className={`about-nav-btn ${active === s.id ? 'active' : ''}`}
-                onClick={() => setActive(s.id)}
-                style={{ '--section-color': s.color }}
-              >
-                <span className="about-nav-icon">{s.icon}</span>
-                {s.title}
-              </button>
-            ))}
+            {sections.map(s => {
+              const Icon = s.icon
+              const isActive = active === s.id
+              return (
+                <button
+                  key={s.id}
+                  className={`about-nav-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => setActive(s.id)}
+                  style={{ '--section-color': s.color }}
+                >
+                  <span className="about-nav-icon">
+                    <Icon size={16} color={isActive ? s.color : 'var(--text-muted)'} strokeWidth={isActive ? 2.2 : 1.8} />
+                  </span>
+                  {s.title}
+                </button>
+              )
+            })}
           </nav>
         </aside>
 
         <div className="about-content">
           <div className="about-section-header" style={{ borderColor: section.color }}>
-            <span className="about-section-icon">{section.icon}</span>
+            <span className="about-section-icon">
+              {React.createElement(section.icon, { size: 36, color: section.color, strokeWidth: 1.5 })}
+            </span>
             <div>
               <h3 style={{ color: section.color }}>{section.title}</h3>
               <p>{section.desc}</p>
