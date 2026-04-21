@@ -165,6 +165,15 @@ function BinarySearchPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         )}
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">Binary Search</span>
+          <span className="algo-info-complexity">O(log n)</span>
+          <span className="algo-info-space">Space: O(1)</span>
+        </div>
+        <div className="algo-info-desc">Repeatedly halves the search range by comparing the target to the midpoint. Requires a sorted array. Each step eliminates half the remaining elements.</div>
+      </div>
+
       {array.length === 0 ? (
         <div className="placeholder">
           <div className="placeholder-content">

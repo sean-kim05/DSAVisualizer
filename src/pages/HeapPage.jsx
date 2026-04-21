@@ -285,6 +285,15 @@ function HeapPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         )}
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">{heapType === 'min' ? 'Min Heap' : 'Max Heap'}</span>
+          <span className="algo-info-complexity">O(log n) insert/extract</span>
+          <span className="algo-info-space">Space: O(n)</span>
+        </div>
+        <div className="algo-info-desc">A complete binary tree where every parent is smaller (min) or larger (max) than its children. The root always holds the min/max value, making it ideal as a priority queue.</div>
+      </div>
+
       {heap.length === 0 ? (
         <div className="placeholder">
           <div className="placeholder-content">

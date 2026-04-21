@@ -140,6 +140,15 @@ function StackQueuePage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         <button className="btn btn-danger" onClick={clearAll} disabled={isAnimating}>Clear</button>
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">Stack & Queue</span>
+          <span className="algo-info-complexity">O(1) push/pop/enqueue/dequeue</span>
+          <span className="algo-info-space">Space: O(n)</span>
+        </div>
+        <div className="algo-info-desc">Stack (LIFO) — last in, first out. Used for undo, call stacks, DFS. Queue (FIFO) — first in, first out. Used for BFS, task scheduling, buffers.</div>
+      </div>
+
       <div style={{ flex: 1, display: 'flex', gap: '16px', overflow: 'hidden', minHeight: 0 }}>
         {/* Stack panel */}
         <div style={{

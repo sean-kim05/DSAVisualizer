@@ -41,7 +41,7 @@ function WelcomeModal({ onClose }) {
                 <p>All visualizers work on desktop and mobile.</p>
               </div>
             </div>
-            <button className="modal-button" onClick={handleClose}>Let's go!</button>
+            <button className="modal-button" onClick={handleClose}>Start Exploring</button>
           </div>
         </div>
       )}

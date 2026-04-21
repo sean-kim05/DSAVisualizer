@@ -362,6 +362,15 @@ function GraphPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         </div>
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">Graph Traversal</span>
+          <span className="algo-info-complexity">O(V + E)</span>
+          <span className="algo-info-space">Space: O(V)</span>
+        </div>
+        <div className="algo-info-desc">Explore graphs using BFS (level-by-level, shortest path on unweighted), DFS (depth-first, good for connectivity), or Dijkstra (shortest path on weighted graphs).</div>
+      </div>
+
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', overflow: 'hidden' }}>
         <div style={{
           flex: 1, background: 'var(--bg-secondary)', borderRadius: '8px',

@@ -4,51 +4,11 @@ import styles from './AIPanel.module.css'
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const PRESET_QUESTIONS = [
-  {
-    label: 'Explain this algorithm',
-    icon: (
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
-        <path d="M6 5.5v2.5M6 3.5v.8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-      </svg>
-    ),
-  },
-  {
-    label: "Time complexity",
-    icon: (
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.2"/>
-        <path d="M6 3.5V6l2 1.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'When should I use this?',
-    icon: (
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M6 1.5l1.2 2.4 2.7.4-1.95 1.9.46 2.7L6 7.65 3.57 8.9l.46-2.7L2.08 4.3l2.7-.4L6 1.5z" stroke="currentColor" strokeWidth="1.15" strokeLinejoin="round"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'Compare to similar',
-    icon: (
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M1.5 4.5h9M1.5 7.5h9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-        <path d="M7.5 2.5l2 2-2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M4.5 6.5l-2 2 2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'What to watch for?',
-    icon: (
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M1.5 6s1.5-3.5 4.5-3.5S10.5 6 10.5 6 9 9.5 6 9.5 1.5 6 1.5 6z" stroke="currentColor" strokeWidth="1.2"/>
-        <circle cx="6" cy="6" r="1.4" stroke="currentColor" strokeWidth="1.2"/>
-      </svg>
-    ),
-  },
+  { label: 'Explain this algorithm', icon: '💡' },
+  { label: 'Time complexity',        icon: '⏱' },
+  { label: 'When should I use this?', icon: '🎯' },
+  { label: 'Compare to similar',     icon: '⚖️' },
+  { label: 'What to watch for?',     icon: '👁' },
 ]
 
 const ALGORITHM_WELCOME = {
@@ -420,13 +380,14 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <span className={styles.headerIcon}><IconAI /></span>
-            <span className={styles.headerTitle}>Claude</span>
-            <span className={styles.headerSub}>DSA Tutor</span>
+            <span className={styles.headerIcon}>✦</span>
+            <div className={styles.headerTitleBlock}>
+              <span className={styles.headerTitle}>Claude</span>
+              {currentAlgorithm && (
+                <span className={styles.headerAlgoName}>{currentAlgorithm}</span>
+              )}
+            </div>
           </div>
-          {currentAlgorithm && (
-            <span className={styles.algorithmBadge}>{currentAlgorithm}</span>
-          )}
         </div>
 
         {/* Preset buttons */}
@@ -511,6 +472,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         </form>
 
         <div className={styles.footer}>
+          <span>✦</span>
           Powered by Claude · Press <kbd>/</kbd> to toggle
         </div>
       </div>

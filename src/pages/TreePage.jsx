@@ -189,6 +189,15 @@ function TreePage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         </button>
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">Binary Search Tree</span>
+          <span className="algo-info-complexity">O(log n) avg</span>
+          <span className="algo-info-space">Space: O(n)</span>
+        </div>
+        <div className="algo-info-desc">A node-based structure where each node's left subtree contains only smaller values and right subtree only larger values. Supports efficient insert, delete, and search.</div>
+      </div>
+
       <div className="tree-main">
         <TreeVisualization tree={tree} visitedNodes={visitedNodes} foundNode={foundNode} />
 

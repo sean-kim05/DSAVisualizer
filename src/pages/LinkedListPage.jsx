@@ -218,6 +218,15 @@ function LinkedListPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
         )}
       </div>
 
+      <div className="algo-info-bar">
+        <div className="algo-info-left">
+          <span className="algo-info-name">{mode === 'doubly' ? 'Doubly Linked List' : 'Singly Linked List'}</span>
+          <span className="algo-info-complexity">O(n) traverse</span>
+          <span className="algo-info-space">Space: O(n)</span>
+        </div>
+        <div className="algo-info-desc">A sequence of nodes where each node holds a value and a pointer to the next (and previous in doubly). Allows O(1) insert/delete at head with O(n) access by index.</div>
+      </div>
+
       {nodes.length === 0 ? (
         <div className="placeholder">
           <div className="placeholder-content">

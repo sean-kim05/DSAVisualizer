@@ -12,7 +12,7 @@ const ALGO_DISPLAY_NAMES = {
 
 function PathfindingPage({ showToast, onAlgorithmChange, onVizStatusChange }) {
   const ROWS = 20
-  const COLS = 50
+  const COLS = 45
   const [grid, setGrid] = useState([])
   const [startNode, setStartNode] = useState({ row: 10, col: 5 })
   const [endNode, setEndNode] = useState({ row: 10, col: 44 })
