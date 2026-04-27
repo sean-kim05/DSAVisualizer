@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Lightbulb, Clock, Target, Scale, Eye, Sparkles } from 'lucide-react'
+import { Lightbulb, Clock, Target, Scale, Eye, Sparkles, Paperclip, Camera, X } from 'lucide-react'
 import styles from './AIPanel.module.css'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
@@ -28,7 +28,6 @@ const ALGORITHM_WELCOME = {
   'Binary Search': 'Now watching Binary Search — halving the search space each step. Ask me anything!',
 }
 
-// SVG icons used inline
 const IconAI = () => (
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
     <path d="M7.5 1.5C4.186 1.5 1.5 4.186 1.5 7.5c0 1.476.528 2.827 1.4 3.876L1.5 12.793A.5.5 0 001.854 13.5H7.5c3.314 0 6-2.686 6-6s-2.686-6-6-6z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
@@ -112,6 +111,9 @@ function MessageBubble({ message }) {
           )}
         </div>
       )}
+      {message.image && (
+        <img src={message.image} alt="attached" className={styles.msgImage} />
+      )}
       <div className={styles.bubbleContent}>
         {message.isStreaming && !message.content ? (
           <TypingIndicator />
@@ -135,15 +137,17 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
   const [showTooltip, setShowTooltip] = useState(false)
   const [showExplainBtn, setShowExplainBtn] = useState(false)
   const [vizBanner, setVizBanner] = useState(null)
+  const [pendingImage, setPendingImage] = useState(null) // { dataUrl }
+  const [isCapturing, setIsCapturing] = useState(false)
 
   const abortRef = useRef(null)
   const chatRef = useRef(null)
   const inputRef = useRef(null)
+  const fileInputRef = useRef(null)
   const prevAlgorithmRef = useRef(currentAlgorithm)
   const prevVizStatusRef = useRef(vizStatus)
   const historyRef = useRef([])
 
-  // First-time tooltip
   useEffect(() => {
     if (!localStorage.getItem('dsa_ai_tooltip_seen')) {
       setTimeout(() => setShowTooltip(true), 2000)
@@ -155,7 +159,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     localStorage.setItem('dsa_ai_tooltip_seen', '1')
   }
 
-  // Algorithm change → clear conversation
   useEffect(() => {
     if (currentAlgorithm && currentAlgorithm !== prevAlgorithmRef.current) {
       prevAlgorithmRef.current = currentAlgorithm
@@ -168,7 +171,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     }
   }, [currentAlgorithm])
 
-  // Viz status → banners and buttons
   useEffect(() => {
     if (vizStatus === prevVizStatusRef.current) return
     prevVizStatusRef.current = vizStatus
@@ -187,14 +189,12 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     }
   }, [vizStatus])
 
-  // Auto-scroll chat
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight
     }
   }, [messages])
 
-  // Keyboard shortcut: press / to open
   useEffect(() => {
     const handleKey = (e) => {
       if (
@@ -210,6 +210,56 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [])
 
+  // Paste image from clipboard
+  useEffect(() => {
+    const handlePaste = (e) => {
+      if (!isOpen) return
+      const items = e.clipboardData?.items
+      if (!items) return
+      for (const item of items) {
+        if (item.type.startsWith('image/')) {
+          e.preventDefault()
+          const file = item.getAsFile()
+          const reader = new FileReader()
+          reader.onload = (ev) => setPendingImage({ dataUrl: ev.target.result })
+          reader.readAsDataURL(file)
+          break
+        }
+      }
+    }
+    window.addEventListener('paste', handlePaste)
+    return () => window.removeEventListener('paste', handlePaste)
+  }, [isOpen])
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    if (!file || !file.type.startsWith('image/')) return
+    const reader = new FileReader()
+    reader.onload = (ev) => setPendingImage({ dataUrl: ev.target.result })
+    reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  const captureViz = useCallback(async () => {
+    setIsCapturing(true)
+    try {
+      const html2canvas = (await import('html2canvas')).default
+      const target =
+        document.querySelector('.sort-visualization') ||
+        document.querySelector('.grid-container') ||
+        document.querySelector('.tree-canvas') ||
+        document.querySelector('canvas') ||
+        document.querySelector('.page')
+      if (!target) return
+      const canvas = await html2canvas(target, { backgroundColor: '#09090b', scale: 1, useCORS: true })
+      setPendingImage({ dataUrl: canvas.toDataURL('image/png') })
+    } catch (_) {
+      // silently fail — user can paste manually
+    } finally {
+      setIsCapturing(false)
+    }
+  }, [])
+
   const buildContext = useCallback(() => {
     const parts = []
     if (vizStatus === 'running') parts.push('visualization is currently running')
@@ -222,7 +272,9 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     if (!question.trim() || isStreaming) return
 
     const q = question.trim()
+    const imageToSend = pendingImage?.dataUrl || null
     setInput('')
+    setPendingImage(null)
     setIsStreaming(true)
     setRateLimited(true)
     setTimeout(() => setRateLimited(false), 1000)
@@ -231,7 +283,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     const controller = new AbortController()
     abortRef.current = controller
 
-    setMessages(prev => [...prev, { role: 'user', content: q }])
+    setMessages(prev => [...prev, { role: 'user', content: q, image: imageToSend }])
     setMessages(prev => [...prev, { role: 'assistant', content: '', isStreaming: true }])
 
     const historySnapshot = [...historyRef.current]
@@ -245,6 +297,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           context: buildContext(),
           question: q,
           history: historySnapshot,
+          image: imageToSend,
         }),
         signal: controller.signal,
       })
@@ -298,7 +351,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
                 return next
               })
             }
-          } catch (_) { /* ignore parse errors */ }
+          } catch (_) {}
         }
       }
     } catch (err) {
@@ -326,7 +379,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
     } finally {
       setIsStreaming(false)
     }
-  }, [currentAlgorithm, buildContext, isStreaming])
+  }, [currentAlgorithm, buildContext, isStreaming, pendingImage])
 
   const stopGeneration = () => {
     if (abortRef.current) abortRef.current.abort()
@@ -354,7 +407,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
 
   return (
     <>
-      {/* First-time tooltip */}
       {showTooltip && !isOpen && (
         <div className={styles.tooltip} onClick={dismissTooltip}>
           <span>Ask Claude to explain any algorithm</span>
@@ -364,7 +416,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         </div>
       )}
 
-      {/* Toggle button */}
       <button
         className={`${styles.toggleBtn} ${isOpen ? styles.toggleOpen : ''}`}
         onClick={togglePanel}
@@ -375,10 +426,8 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         {!isOpen && <span className={styles.toggleLabel}>AI</span>}
       </button>
 
-      {/* Panel */}
       <div className={`${styles.panel} ${isOpen ? styles.panelOpen : ''}`} aria-hidden={!isOpen}>
 
-        {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
             <span className={styles.headerIcon}><Sparkles size={14} strokeWidth={2} /></span>
@@ -391,7 +440,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           </div>
         </div>
 
-        {/* Preset buttons */}
         <div className={styles.presets}>
           {PRESET_QUESTIONS.map(({ label, icon: Icon }) => (
             <button
@@ -407,7 +455,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           ))}
         </div>
 
-        {/* Viz status banner */}
         {vizBanner && (
           <div className={styles.vizBanner}>
             <span className={styles.vizDot} />
@@ -415,13 +462,12 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           </div>
         )}
 
-        {/* Chat area */}
         <div className={styles.chat} ref={chatRef}>
           {messages.length === 0 ? (
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}><IconAI /></div>
               <p>Ask me about <strong>{currentAlgorithm || 'this algorithm'}</strong>.</p>
-              <p className={styles.emptyHint}>Press <kbd>/</kbd> to open this panel anytime.</p>
+              <p className={styles.emptyHint}>Press <kbd>/</kbd> to open · Paste or 📎 to attach images</p>
             </div>
           ) : (
             messages.map((msg, i) => (
@@ -430,7 +476,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           )}
         </div>
 
-        {/* Explain what happened button */}
         {showExplainBtn && (
           <div className={styles.explainBanner}>
             <button className={styles.explainBtn} onClick={handleExplainNow}>
@@ -440,8 +485,46 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
           </div>
         )}
 
-        {/* Input area */}
+        {/* Image preview */}
+        {pendingImage && (
+          <div className={styles.imagePreviewWrap}>
+            <img src={pendingImage.dataUrl} alt="preview" className={styles.imagePreview} />
+            <button className={styles.imageRemoveBtn} onClick={() => setPendingImage(null)} title="Remove image">
+              <X size={12} />
+            </button>
+          </div>
+        )}
+
         <form className={styles.inputArea} onSubmit={handleSubmit}>
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+
+          {/* Attach buttons */}
+          <button
+            type="button"
+            className={styles.attachBtn}
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isStreaming}
+            title="Attach image"
+          >
+            <Paperclip size={15} strokeWidth={2} />
+          </button>
+          <button
+            type="button"
+            className={styles.attachBtn}
+            onClick={captureViz}
+            disabled={isStreaming || isCapturing}
+            title="Capture visualization"
+          >
+            <Camera size={15} strokeWidth={2} />
+          </button>
+
           <input
             ref={inputRef}
             className={styles.input}
@@ -464,7 +547,7 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
             <button
               type="submit"
               className={styles.sendBtn}
-              disabled={!input.trim() || rateLimited}
+              disabled={(!input.trim() && !pendingImage) || rateLimited}
               title="Send message"
             >
               <IconSend />
@@ -478,7 +561,6 @@ export default function AIPanel({ currentAlgorithm, currentTab, vizStatus }) {
         </div>
       </div>
 
-      {/* Mobile overlay backdrop */}
       {isOpen && <div className={styles.backdrop} onClick={togglePanel} />}
     </>
   )

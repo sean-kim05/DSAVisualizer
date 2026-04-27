@@ -24,7 +24,10 @@ def _send_respan_log(messages, output, model, max_tokens, status_code):
         api_key = os.getenv('RESPAN_API_KEY')
         if not api_key:
             return
-        prompt_messages = [{'role': m['role'], 'content': m['content']} for m in messages]
+        prompt_messages = [
+            {'role': m['role'], 'content': m['content'] if isinstance(m['content'], str) else '[vision message]'}
+            for m in messages
+        ]
         httpx.post(
             RESPAN_LOG_URL,
             json={
@@ -120,11 +123,22 @@ def explain():
         if role in ('user', 'assistant') and content:
             messages.append({'role': role, 'content': content})
 
-    # Append current question with context
-    messages.append({
-        'role': 'user',
-        'content': f'[Algorithm Context]\n{algo_context_str}\n\n[Question]\n{question}'
-    })
+    # Append current question with context (optionally with image)
+    image_data = data.get('image')  # base64 data URL e.g. "data:image/png;base64,..."
+    text_content = f'[Algorithm Context]\n{algo_context_str}\n\n[Question]\n{question}'
+
+    if image_data and ',' in image_data:
+        media_type = image_data.split(';')[0].split(':')[1]
+        b64 = image_data.split(',')[1]
+        messages.append({
+            'role': 'user',
+            'content': [
+                {'type': 'image', 'source': {'type': 'base64', 'media_type': media_type, 'data': b64}},
+                {'type': 'text', 'text': text_content},
+            ]
+        })
+    else:
+        messages.append({'role': 'user', 'content': text_content})
 
     def generate():
         full_output = []

@@ -418,6 +418,78 @@
   border-color: rgba(34, 197, 94, 0.5);
 }
 
+/* ── Image Preview ───────────────────────────── */
+.imagePreviewWrap {
+  position: relative;
+  padding: 8px 12px 4px;
+  flex-shrink: 0;
+  background: var(--bg-primary, #09090b);
+  border-top: 1px solid var(--border-color, #27272a);
+  display: flex;
+  align-items: flex-start;
+}
+
+.imagePreview {
+  max-height: 120px;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #27272a);
+  object-fit: contain;
+}
+
+.imageRemoveBtn {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  background: rgba(0,0,0,0.7);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.imageRemoveBtn:hover { background: rgba(239, 68, 68, 0.8); }
+
+/* Image inside chat bubble */
+.msgImage {
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Attach Buttons ─────────────────────────── */
+.attachBtn {
+  width: 32px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #27272a);
+  background: var(--bg-tertiary, #18181b);
+  color: var(--text-muted, #71717a);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.attachBtn:hover:not(:disabled) {
+  color: var(--accent-primary, #6366f1);
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.attachBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+
 /* ── Input Area ──────────────────────────────── */
 .inputArea {
   display: flex;
