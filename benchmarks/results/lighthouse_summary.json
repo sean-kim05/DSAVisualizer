@@ -1,0 +1,42 @@
+{
+  "generated": "2026-05-27T23:47:00.881Z",
+  "runs_used": 3,
+  "per_run": [
+    {
+      "performance_score": 99,
+      "fcp_ms": 743.27095,
+      "lcp_ms": 743.27095,
+      "tti_ms": 743.2709500000001,
+      "tbt_ms": 0,
+      "cls": 0,
+      "speed_index_ms": 1137.0436069437444
+    },
+    {
+      "performance_score": 100,
+      "fcp_ms": 453.3021,
+      "lcp_ms": 769.76095,
+      "tti_ms": 769.7609500000001,
+      "tbt_ms": 0,
+      "cls": 0,
+      "speed_index_ms": 454.7176207498027
+    },
+    {
+      "performance_score": 98,
+      "fcp_ms": 666.6003,
+      "lcp_ms": 1094.2253,
+      "tti_ms": 1094.2253,
+      "tbt_ms": 0,
+      "cls": 0,
+      "speed_index_ms": 685.0111107635116
+    }
+  ],
+  "median": {
+    "performance_score": 99,
+    "fcp_ms": 666.6003,
+    "lcp_ms": 769.76095,
+    "tti_ms": 769.7609500000001,
+    "tbt_ms": 0,
+    "cls": 0,
+    "speed_index_ms": 685.0111107635116
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "generated": "2026-05-27T23:41:18.759Z",
+  "totals": {
+    "js": {
+      "count": 3,
+      "raw_kb": 431.81,
+      "gzip_kb": 116.35
+    },
+    "css": {
+      "count": 1,
+      "raw_kb": 30.08,
+      "gzip_kb": 6.35
+    },
+    "other": {
+      "count": 0,
+      "raw_kb": 0,
+      "gzip_kb": 0
+    }
+  },
+  "total_kb": 461.89,
+  "total_gzip_kb": 122.7,
+  "largest_chunk": {
+    "file": "dist/assets/index-fd27240b.js",
+    "raw_bytes": 239169,
+    "gzip_bytes": 71078,
+    "raw_kb": 233.56,
+    "gzip_kb": 69.41
+  },
+  "files": {
+    "js": [
+      {
+        "file": "dist/assets/html2canvas.esm-e0a7d97b.js",
+        "raw_bytes": 202309,
+        "gzip_bytes": 47707,
+        "raw_kb": 197.57,
+        "gzip_kb": 46.59
+      },
+      {
+        "file": "dist/assets/index-fd27240b.js",
+        "raw_bytes": 239169,
+        "gzip_bytes": 71078,
+        "raw_kb": 233.56,
+        "gzip_kb": 69.41
+      },
+      {
+        "file": "dist/assets/maze-59347692.js",
+        "raw_bytes": 694,
+        "gzip_bytes": 360,
+        "raw_kb": 0.68,
+        "gzip_kb": 0.35
+      }
+    ],
+    "css": [
+      {
+        "file": "dist/assets/index-62133cf3.css",
+        "raw_bytes": 30800,
+        "gzip_bytes": 6498,
+        "raw_kb": 30.08,
+        "gzip_kb": 6.35
+      }
+    ],
+    "other": []
+  }
+}
